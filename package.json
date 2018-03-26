@@ -1,0 +1,28 @@
+{
+  "name": "typlux",
+  "version": "1.0.0",
+  "description": "Typlux is a TypeScript friendly implementation of Flux architecture which is written in TypeScript.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsc -w --declaration",
+    "build": "tsc --declaration",
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/niba1122/typlux.git"
+  },
+  "keywords": [
+    "flux",
+    "typescript"
+  ],
+  "author": "Nobuhito Ibaraki <niba1122@gmail.com> (http://nobuhito.ibaraki.jp/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/niba1122/typlux/issues"
+  },
+  "homepage": "https://github.com/niba1122/typlux#readme",
+  "devDependencies": {
+    "typescript": "^2.7.2"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+      "strictNullChecks": true,
+      "strictPropertyInitialization": true,
+      "strictFunctionTypes": true,
+      "noImplicitAny": true,
+      "removeComments": true,
+      "preserveConstEnums": true,
+      "noEmitOnError": true,
+      "sourceMap": true,
+      "allowSyntheticDefaultImports": true,
+      "experimentalDecorators": true,
+      "lib": [
+        "dom",
+        "es6",
+        "es2015.promise"
+      ],
+      "target": "es5",
+      "strict": true,
+      "module": "es2015",
+      "moduleResolution": "node",
+      "emitDecoratorMetadata": true,
+      "outDir": "./lib"
+  }
+}
