@@ -1,8 +1,9 @@
 {
   "name": "typlux",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Typlux is a TypeScript friendly implementation of Flux architecture which is written in TypeScript.",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "./lib/index.d.ts",
   "scripts": {
     "dev": "tsc -w --declaration",
     "build": "tsc --declaration",
