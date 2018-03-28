@@ -18,7 +18,7 @@ $ yarn add typlux
 
 ## Example
 
-TBD
+[Simple Todo Application](https://github.com/niba1122/typlux-example)
 
 ## Development
 
