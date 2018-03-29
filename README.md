@@ -2,6 +2,9 @@
 
 Typlux is a TypeScript friendly implementation of Flux architecture which is writtern in TypeScript.
 
+<img src="https://user-images.githubusercontent.com/9022756/38075754-6f2082a8-336e-11e8-81ea-8e9a03e3f0d3.png" width="50%">
+
+
 ## Install
 
 * npm
