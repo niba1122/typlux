@@ -30,7 +30,7 @@ class Subject<T> implements Observable<T> {
   private callbacks: { [id: number]: (value: T) => void } = {}
   private lastId: number = 0
 
-  subscribe(callback: (value: T) => void) : number {
+  subscribe(callback: (value: T) => void): number {
     let id = this.lastId + 1
     this.callbacks[id] = callback
     this.lastId = id
@@ -107,7 +107,7 @@ export default abstract class Store<AC extends ActionCreator<A, S>, A, S, VP> {
   protected abstract provideGetter(): Getter<S, VP>
   protected abstract provideInitialState(): S
 
-  private _actionCreator = new Lazy(() => this.provideActionCreator(this.dispatcher, this.state))
+  private _actionCreator = new Lazy(() => this.provideActionCreator(this.dispatcher, this.state.get()))
   get actionCreator(): AC {
     return this._actionCreator.get()
   }
@@ -116,8 +116,8 @@ export default abstract class Store<AC extends ActionCreator<A, S>, A, S, VP> {
   private getter = new Lazy(() => this.provideGetter())
 
   private action: Subject<A> = new Subject()
-  private state: ObservableVariable<S> = new ObservableVariable(this.initialState.get())
-  private viewProperty: ObservableVariable<VP> = new ObservableVariable(this.getter.get()(this.state.value))
+  private state: Lazy<ObservableVariable<S>> = new Lazy(() => new ObservableVariable(this.initialState.get()))
+  private viewProperty: Lazy<ObservableVariable<VP>> = new Lazy(() => new ObservableVariable(this.getter.get()(this.state.get().value)))
 
   private actionSubscriptionID: number
   private stateSubscriptionID: number
@@ -128,20 +128,20 @@ export default abstract class Store<AC extends ActionCreator<A, S>, A, S, VP> {
 
   constructor() {
     this.actionSubscriptionID = this.action.subscribe((action) => {
-      this.state.value = this.reducer.get()(action, this.state.value)
+      this.state.get().value = this.reducer.get()(action, this.state.get().value)
     })
-    this.stateSubscriptionID = this.state.subscribe((state) => {
-      this.viewProperty.value = this.getter.get()(state)
+    this.stateSubscriptionID = this.state.get().subscribe((state) => {
+      this.viewProperty.get().value = this.getter.get()(state)
     })
   }
 
   subscribeViewProperty(callback: ViewPropertyObserver<ReadOnly<VP>>): number {
-    return this.viewProperty.subscribe((viewProperty) => {
+    return this.viewProperty.get().subscribe((viewProperty) => {
       callback(viewProperty)
     })
   }
 
   unsubscribeViewProperty(id: number) {
-    this.viewProperty.unsubscribe(id)
+    this.viewProperty.get().unsubscribe(id)
   }
 }
