@@ -120,7 +120,9 @@ export default abstract class Store<AC extends ActionCreator<A, S>, A, S, VP> {
   private viewProperty: Lazy<ObservableVariable<VP>> = new Lazy(() => new ObservableVariable(this.getter.get()(this.state.get().value)))
 
   private actionSubscriptionID: number
-  private stateSubscriptionID: number
+  private stateSubscriptionID: Lazy<number> = new Lazy(() => this.state.get().subscribe((state) => {
+    this.viewProperty.get().value = this.getter.get()(state)
+  }))
 
   private dispatcher: Dispatcher<A> = (action: A) => {
     this.action.publish(action)
@@ -130,12 +132,12 @@ export default abstract class Store<AC extends ActionCreator<A, S>, A, S, VP> {
     this.actionSubscriptionID = this.action.subscribe((action) => {
       this.state.get().value = this.reducer.get()(action, this.state.get().value)
     })
-    this.stateSubscriptionID = this.state.get().subscribe((state) => {
-      this.viewProperty.get().value = this.getter.get()(state)
-    })
   }
 
   subscribeViewProperty(callback: ViewPropertyObserver<ReadOnly<VP>>): number {
+    // lazy subscription of state
+    this.stateSubscriptionID.get()
+
     return this.viewProperty.get().subscribe((viewProperty) => {
       callback(viewProperty)
     })
